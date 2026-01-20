@@ -5,6 +5,7 @@ anthropic>=0.18.0
 
 # Image generation (optional - depends on API choice)
 openai>=1.0.0
+google-genai>=1.0.0
 
 # TTS
 gtts>=2.5.0

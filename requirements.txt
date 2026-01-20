@@ -20,6 +20,7 @@ Pillow>=10.0.0
 numpy>=1.21.0
 proglog==0.1.10
 tqdm>=4.0.0
+setuptools>=65.0.0
 
 # Utilities
 python-dotenv>=1.0.0

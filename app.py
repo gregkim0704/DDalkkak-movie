@@ -72,6 +72,26 @@ def main():
     st.title("🎬 딸깍 무비")
     st.subheader("프롬프트 한 줄로 영상 자동화")
 
+    # 마지막 생성 영상 다운로드 (세션에 저장된 경우)
+    if 'last_video' in st.session_state:
+        with st.expander("📥 최근 생성 영상 다운로드", expanded=True):
+            last_video = st.session_state['last_video']
+            st.write(f"**{last_video['title']}**")
+            col_a, col_b = st.columns([3, 1])
+            with col_a:
+                st.video(last_video['data'])
+            with col_b:
+                st.download_button(
+                    label="📥 다운로드",
+                    data=last_video['data'],
+                    file_name=last_video['name'],
+                    mime="video/mp4",
+                    use_container_width=True,
+                    type="primary",
+                    key="header_download"
+                )
+            st.divider()
+
     # 사이드바 설정
     with st.sidebar:
         st.header("⚙️ 설정")
@@ -258,20 +278,35 @@ def main():
 
             # 결과 표시
             st.success(f"🎉 영상 생성 완료!")
-            st.info(f"📁 저장 위치: {output_path}")
+            st.info(f"📄 제목: {project_script.title}")
             st.info(f"⏱️ 총 길이: {project_script.total_duration:.1f}초")
 
-            # 영상 미리보기
+            # 영상 미리보기 및 다운로드
             if output_path.exists():
-                st.video(str(output_path))
-
-                # 다운로드 버튼
+                # 영상 데이터를 세션에 저장 (다운로드용)
                 with open(output_path, "rb") as f:
+                    video_data = f.read()
+
+                st.session_state['last_video'] = {
+                    'data': video_data,
+                    'name': output_path.name,
+                    'title': project_script.title
+                }
+
+                # 영상 미리보기
+                st.video(video_data)
+
+                # 다운로드 버튼 (크게 표시)
+                st.markdown("---")
+                col_dl1, col_dl2, col_dl3 = st.columns([1, 2, 1])
+                with col_dl2:
                     st.download_button(
-                        label="📥 영상 다운로드",
-                        data=f,
+                        label="📥 영상 다운로드 (MP4)",
+                        data=video_data,
                         file_name=output_path.name,
-                        mime="video/mp4"
+                        mime="video/mp4",
+                        use_container_width=True,
+                        type="primary"
                     )
 
         except Exception as e:

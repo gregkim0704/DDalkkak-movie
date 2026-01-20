@@ -3,9 +3,20 @@
 import streamlit as st
 from pathlib import Path
 import os
+import sys
 
-from src.pipeline import DDalkkakPipeline
-from src.config import OUTPUT_DIR
+# Streamlit Cloud 환경 설정
+if 'STREAMLIT_SHARING' in os.environ or '/mount/src' in os.getcwd():
+    # Streamlit secrets에서 환경변수 로드
+    if hasattr(st, 'secrets'):
+        for key in ['ANTHROPIC_API_KEY', 'GEMINI_API_KEY', 'OPENAI_API_KEY']:
+            if key in st.secrets:
+                os.environ[key] = st.secrets[key]
+
+# 프로젝트 루트를 경로에 추가
+PROJECT_ROOT = Path(__file__).parent
+OUTPUT_DIR = PROJECT_ROOT / "output"
+OUTPUT_DIR.mkdir(exist_ok=True)
 
 
 def load_env_keys():
@@ -195,6 +206,9 @@ def main():
         status_text = st.empty()
 
         try:
+            # 지연 import (Streamlit Cloud 호환성)
+            from src.pipeline import DDalkkakPipeline
+
             # 파이프라인 생성
             pipeline = DDalkkakPipeline(
                 image_provider=image_provider,

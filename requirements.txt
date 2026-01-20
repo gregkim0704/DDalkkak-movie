@@ -12,11 +12,14 @@ gtts>=2.5.0
 mutagen>=1.47.0
 
 # Video processing
-moviepy>=1.0.3
-imageio>=2.9.0
-imageio-ffmpeg>=0.4.7
+moviepy==1.0.3
+decorator==4.4.2
+imageio==2.9.0
+imageio-ffmpeg==0.4.7
 Pillow>=10.0.0
 numpy>=1.21.0
+proglog==0.1.10
+tqdm>=4.0.0
 
 # Utilities
 python-dotenv>=1.0.0

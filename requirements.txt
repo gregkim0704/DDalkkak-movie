@@ -1,0 +1,23 @@
+# DDalkkak Movie - Dependencies
+
+# LLM
+anthropic>=0.18.0
+
+# Image generation (optional - depends on API choice)
+openai>=1.0.0
+
+# TTS
+gtts>=2.5.0
+mutagen>=1.47.0
+
+# Video processing
+moviepy>=1.0.3
+Pillow>=10.0.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+rich>=13.0.0
+
+# Web UI
+streamlit>=1.30.0
